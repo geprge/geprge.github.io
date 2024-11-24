@@ -1,0 +1,85 @@
+</html>
+</head>
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+    //getting values from form
+    let profiles=[];
+    let children=[];
+$(document).ready(function(){
+    $("select[name='children']").change(function(){
+    if($(this).val()!="none")
+    {
+        //to get array of child names
+        $("#childInputs").empty();
+        var n=parseInt($(this).val());
+       
+    for(var i=0;i<n;i++)
+    {
+     var inputBox=$('<input type="text" name="childName[]" placeholder="Enter child name"><br>');
+        $("#childInputs").append(inputBox);
+    }
+    }
+});
+     $("#addPerson").click(function(event){
+        //creating json createObject    
+        event.preventDefault();
+        let children=[];
+        $("input[name='childName[]']").each(function(){
+                 children.push($(this).val());
+        });
+        const Person={
+       name:$("#name").val(),
+        dob:$("#date").val(),
+        children:children,
+        gender:$("input[name='gender']:checked").val(),
+        motherName:$("#mothername").val(),
+        fatherName:$("#fathername").val(),
+        familyName:$("#fName").val()
+
+        };
+        profiles.push(Person);
+        alert("Your details have been added");
+        $("#childInputs").empty();
+    });
+    $("#display").click(function(){
+    const jsonString=JSON.stringify(profiles);
+    //creating downloadable link
+    const blob=new Blob([jsonString],{type:'application/json'});
+    const link=document.createElement('a');
+    link.href=URL.createObjectURL(blob);
+    link.download='formDetails.json';
+    link.click();
+    alert("download the files");
+    });
+});
+</script>
+<style>
+    form *{
+    
+        margin:10px;
+    }
+    </style>
+</head>
+<body>
+    <form>
+    Name:<input type="text" id="name"><br>
+    DOB:<input type="date" id="date"><br>
+    Mother:<input type="text" id="mothername"><br>
+    Father:<input type="text" id="fathername"><br>
+    Children:<select name="children">
+        <option>How many children</option>
+        <option value="none">None</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select><br>
+    <div id="childInputs"></div>
+    Gender:<label><input type="radio" value="male" name="gender">Male</label>
+    <label><input type="radio" value="female" name="gender">Female</label><br>
+    Family Name:<input type="text" id="fname"><br>
+    <button id="addPerson">ADD</button><br>
+    <button id="display">show records</button>
+    </form>
+</body>
+</html>
+

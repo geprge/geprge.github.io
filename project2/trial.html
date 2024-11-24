@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <style>
+            .triangle{
+                display:flex;
+                flex-direction:column;
+                justify-content: center;
+                width:200px;
+                align-items: center;
+                margin:auto;
+
+            }
+            .children{
+                display:flex;
+                flex-direction:row;
+                justify-content: center;
+                align-items: center;
+
+            }
+            .childnode{
+                width:80px;
+                height:40px;
+                background-color:yellow;
+                margin-left:10px;
+                margin-right:10px;
+                border-radius:25px;
+                display:flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .parentnode{
+                margin-top:10px;
+                width:80px;
+                height:40px;
+                background-color:yellow;
+                border-radius:25px;
+                display:flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .hline{
+                width:400px;
+                height:1px;
+                background-color:black;
+    
+            }
+            .vline{
+                width:1px;
+                height:30px;
+                background-color:black;
+
+            }
+            .vlinebox{
+                width:500px;
+                height:30px;
+                //background-color: orange    ;
+                display:flex;
+                justify-content: space-around;
+            }
+        </style>
+        <script src="jquery-3.7.1.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $.ajax({
+                type: "GET",
+                url: "formDetails.json", // Using our resources.json file to serve results
+                dataType:"json",
+                success: function(result) {
+                        if(result)
+                        {
+                            formTree(result);
+                        }
+
+                },
+                error: function(){
+                    alert("Could not load json");
+                }
+            });
+            function formTree(jsonDetails){
+                for(var i=0;i<jsonDetails.length;i++)
+                {
+                    formtree(jsonDetails[i]);
+                }
+            }
+            function formtree(oneRecord){
+                    var parent=oneRecord.mother;
+                    var children=oneRecord.children;
+                    var parentDiv=$(`<div class="parentnode">${parent}</div>`);
+                    var vline=$(`<div class="vline"></div>`)
+                    var hline=$(`<div class="hline" style="width:${(children.length-1)*100}px"></div>`);
+                    var vlinebox=$(`<div class="vlinebox"></div>`);
+                        for(let i=0;i<children.length;i++){
+                            vlinebox.append(`<div class="vline"></div>`);
+                        }
+                        var childrenbox=$(`<div class="children"></div>`)
+                        for(let i;i<children.length;i++){
+                            var childNode=$(`<div class="childnode">${children[i]}</div>`);
+                            childrenbox.append(childNode);
+                        }
+
+                        $(".triangle").append(parentDiv).append(vline).append(vlinebox).append(childrenbox);
+                        }
+            }
+
+        </script>
+            
+    </head>
+<body>
+    <div class="triangle">I am there
+        <!-- <p><div class="parentnode">Parent</div>
+        <div class="vline"></div>
+        <div class="hline"></div>
+        <div class="vlinebox">
+            <div class="vline"></div>
+            <div class="vline"></div>
+            <div class="vline"></div>
+            <div class="vline"></div>
+            <div class="vline"></div>
+        </div>
+        <div class="children">
+           
+            <div class="childnode">Child1</div>
+           
+            <div class="childnode">Child2</div>
+            <div class="childnode">Child3</div>
+            
+            <div class="childnode">Child4</div>
+            <div class="childnode">Child4</div>//depending on no.of children, change vlinebox width(n*100),horizontal line width((n-1*100))
+            
+        </div></p> -->     
+    </div>
+</html>

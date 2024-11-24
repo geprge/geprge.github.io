@@ -1,0 +1,98 @@
+<html>
+<head>
+    <style>
+        .triangle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 200px;
+            align-items: center;
+            margin: auto;
+        }
+        .children {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .childnode {
+            width: 80px;
+            height: 40px;
+            background-color: yellow;
+            margin-left: 10px;
+            margin-right: 10px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .parentnode {
+            margin-top: 10px;
+            width: 80px;
+            height: 40px;
+            background-color: yellow;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hline {
+            width: 400px;
+            height: 1px;
+            background-color: black;
+        }
+        .vline {
+            width: 1px;
+            height: 30px;
+            background-color: black;
+        }
+        .vlinebox {
+            width: 500px;
+            height: 30px;
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.getJSON('formDetails.json', function(data) {
+                if (data) {
+                    formTree(data);
+                }
+            });
+        });
+
+        function formTree(jsonDetails) {
+            for (var i = 0; i < jsonDetails.length; i++) {
+                formtree(jsonDetails[i]);
+            }
+        }
+
+        function formtree(oneRecord) {
+            // Create the parent node (mother and father)
+            var parentNode = $(`
+                <div class="parentnode">
+                    ${oneRecord.mother} & ${oneRecord.father}
+                </div>
+            `);
+
+            // Create the child nodes container
+            var childrenContainer = $('<div class="children"></div>');
+            for (var j = 0; j < oneRecord.children.length; j++) {
+                var childNode = $(`<div class="childnode">${oneRecord.children[j]}</div>`);
+                childrenContainer.append(childNode);
+            }
+
+            // Append parent and children nodes to the triangle div
+            $(".triangle")
+                .append(parentNode)
+                .append('<div class="vlinebox"><div class="vline"></div></div>')
+                .append(childrenContainer);
+        }
+    </script>
+</head>
+<body>
+    <div class="triangle"></div>
+</body>
+</html>
