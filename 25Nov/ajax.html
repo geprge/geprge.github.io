@@ -1,0 +1,22 @@
+<html>
+    <body>
+        <button id="text">Load content from text file</button>
+        <div id="content">Content will appear here...</div>
+<script src="jquery-3.7.1.min.js">
+    $(document).ready(function(){
+        $("#text").click(function(){
+            $.ajax({
+                url:"text.txt",
+                method="GET",
+                success:function(data){
+                    $("#content").text(data);
+                },
+                error:function(){
+                    $("#content").text("Failed to load content.");
+                },
+        });
+     });
+ });
+</script>
+</body>
+</html>
