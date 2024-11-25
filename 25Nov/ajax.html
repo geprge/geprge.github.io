@@ -7,7 +7,7 @@
         $("#text").click(function(){
             $.ajax({
                 url:"text.txt",
-                method="GET",
+                method:"GET",
                 success:function(data){
                     $("#content").text(data);
                 },
