@@ -1,22 +1,28 @@
 <html>
     <body>
-        <button id="text">Load content from text file</button>
-        <div id="content">Content will appear here...</div>
-<script src="jquery-3.7.1.min.js">
-    $(document).ready(function(){
-        $("#text").click(function(){
-            $.ajax({
-                url:"text.txt",
-                method:"GET",
-                success:function(data){
-                    $("#content").text(data);
-                },
-                error:function(){
-                    $("#content").text("Failed to load content.");
-                },
-        });
-     });
- });
-</script>
-</body>
+        <button id="but1">Load content from text file</button>
+        <div id="text1">Content will appear here...</div>
+        <div id="text2">--------Debug Space--------</div>
+        <script src="jquery-3.7.1.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#but1").click(function(){
+                    $("#text2").text("Button Clicked");
+                    $.ajax({
+                        url:"/text.txt",
+                        dataType:"text",
+                        success:function(data){
+                            $("#text1").text(data);
+                        },
+                        complete:function(){
+                            $("#text2").text("b.Completed ajax");
+                        },
+                        error:function(){
+                            $("#text1").text("Failed to load content.");
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
 </html>
